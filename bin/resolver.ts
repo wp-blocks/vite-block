@@ -44,23 +44,21 @@ function generatePhpFile(globs) {
     return `<?php return array('dependencies' => array("${globs.join('","')}"), 'version' => '${version}');`;
 }
 
-export const wpBlock = ({name, sourceFolder = "src", distFolder = "build"}) => {
+export const wpBlock = ({name, sourceFolder = "src", distFolder = "build", externals = []}) => {
 
     const rootPath = path.resolve(__dirname, "..");
-    const srcPath = path.resolve(rootPath, sourceFolder);
     const destPath = path.resolve(rootPath, distFolder);
-
-    console.log( "srcPath", srcPath, "destPath", destPath, "rootpath", rootPath );
 
     const pluginTools = {
         name: "vite-wordpress-copy",
         buildStart() {
-            this.addWatchFile(path.resolve(rootPath, "/block.json"));
-            this.addWatchFile(path.resolve(rootPath, sourceFolder + "/*.php"));
+            this.addWatchFile(path.resolve(rootPath, "block.json"));
+            this.addWatchFile(path.resolve(rootPath, sourceFolder + "*.{php|scss|css|js|svg}"));
         },
         closeBundle() {
-            const phpFile = generatePhpFile(['react', 'wp-block-editor', 'wp-blocks']);
-            fs.writeFileSync(destPath + "/" + name + ".asset.php", phpFile);
+            // generate php file
+            const phpFile = generatePhpFile(externals);
+            fs.writeFileSync(`${destPath}/${name}.asset.php`, phpFile);
         },
     };
 
