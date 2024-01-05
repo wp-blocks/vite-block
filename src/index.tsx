@@ -10,7 +10,7 @@ import viteLogo from "../public/vite.svg";
 import reactLogo from "./assets/react.svg";
 
 const props = {
-	className: 'vite-block',
+	className: 'dark-mode-switch',
 };
 
 // Register the custom block
@@ -22,10 +22,10 @@ registerBlockType( blockConfig.name, {
     const [count, setCount] = useState(0)
     return ( <div { ...useBlockProps( props ) }>
         <div style={{ width: '100%', height: "50vh", background: '#ccc' }}>
-          <a href="https://vitejs.dev" target="_blank">
+          <a href="https://vitejs.dev" target="_blank" rel={'noopener'} >
             <img src={viteLogo} className="logo" alt="Vite logo" />
           </a>
-          <a href="https://react.dev" target="_blank">
+          <a href="https://react.dev" target="_blank" rel={'noopener'} >
             <img src={reactLogo} className="logo react" alt="React logo" />
           </a>
         </div>
@@ -48,10 +48,10 @@ registerBlockType( blockConfig.name, {
 
     return <div { ...useBlockProps.save( props ) }>
         <div style={{ width: '100%', height: "50vh", background: '#ccc' }}>
-          <a href="https://vitejs.dev" target="_blank">
+          <a href="https://vitejs.dev" target="_blank" rel={'noopener'} >
             <img src={viteLogo} className="logo" alt="Vite logo" />
           </a>
-          <a href="https://react.dev" target="_blank">
+          <a href="https://react.dev" target="_blank" rel={'noopener'} >
             <img src={reactLogo} className="logo react" alt="React logo" />
           </a>
         </div>
