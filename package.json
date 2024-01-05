@@ -4,6 +4,7 @@
   "contributors": [
     "Erik Golinelli <erik@codekraft.it> (https://codekraft.it/)"
   ],
+  "type": "module",
   "license": "GPL-2.0-or-later",
   "files": [
     "build/*",
@@ -27,7 +28,6 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "glob": "^10.3.10",
     "@types/node": "^20.10.6",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",

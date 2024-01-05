@@ -1,5 +1,4 @@
 import * as path from 'path';
-import {globSync} from "glob";
 import react from '@vitejs/plugin-react'
 import * as fs from "fs";
 
@@ -48,33 +47,18 @@ function generatePhpFile(globs) {
 export const wpBlock = ({name, sourceFolder = "src", distFolder = "build"}) => {
 
     const rootPath = path.resolve(__dirname, "..");
-    const sourcePath = path.resolve(rootPath, sourceFolder);
+    const srcPath = path.resolve(rootPath, sourceFolder);
     const destPath = path.resolve(rootPath, distFolder);
 
-    const pluginCopy = {
+    console.log( "srcPath", srcPath, "destPath", destPath, "rootpath", rootPath );
+
+    const pluginTools = {
         name: "vite-wordpress-copy",
         buildStart() {
-            this.addWatchFile(path.resolve(rootPath, "block.json"));
+            this.addWatchFile(path.resolve(rootPath, "/block.json"));
             this.addWatchFile(path.resolve(rootPath, sourceFolder + "/*.php"));
         },
         closeBundle() {
-            this.emitFile({
-                type: "asset",
-                fileName: "block.json",
-                source: "",
-            });
-
-            const phpFiles = globSync(path.resolve(sourceFolder, "/*.php"));
-            phpFiles.forEach((phpFile) => {
-                const fileName = phpFile.split(path.sep).pop();
-                this.emitFile({
-                    type: "asset",
-                    fileName: fileName,
-                    source: "",
-                });
-            });
-
-
             const phpFile = generatePhpFile(['react', 'wp-block-editor', 'wp-blocks']);
             fs.writeFileSync(destPath + "/" + name + ".asset.php", phpFile);
         },
@@ -85,5 +69,5 @@ export const wpBlock = ({name, sourceFolder = "src", distFolder = "build"}) => {
         jsxImportSource: "@wordpress/element",
     });
 
-    return [pluginCopy, pluginReact];
+    return [pluginTools, pluginReact];
 };
