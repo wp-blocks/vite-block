@@ -7,16 +7,16 @@
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  border: 4px solid #646cff;
-  border-radius: 8px;
+  background: white;
+  border-radius: 2rem;
 
   a {
     font-weight: 500;
     color: #646cff;
     text-decoration: inherit;
-  }
-  a:hover {
-    color: #535bf2;
+    &:hover {
+      color: #535bf2;
+    }
   }
 
   h1 {
@@ -33,13 +33,13 @@
     font-family: inherit;
     cursor: pointer;
     transition: border-color 0.25s;
-  }
-  button:hover {
-    border-color: #646cff;
-  }
-  button:focus,
-  button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
+    &:hover {
+      border-color: #646cff;
+    }
+    &:focus,
+    &:focus-visible {
+      outline: 4px auto -webkit-focus-ring-color;
+    }
   }
 
   .logo-wrapper {

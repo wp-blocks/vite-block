@@ -8,7 +8,7 @@ export const wordpressMatch = new RegExp(`^${WORDPRESS_NAMESPACE}(?!(${NSEXCLUDE
 
 const external: Record<string, string> = {
     jquery: "window.jQuery",
-    "lodash-es": "window.lodash",
+    "jsx-runtime": "window.lodash",
     lodash: "window.lodash",
     moment: "window.moment",
     "react-dom": "window.ReactDOM",
@@ -40,35 +40,57 @@ export function resolveGlobals(id: string) {
     return "";
 }
 
+/**
+ * Generates a random hash.
+ *
+ * @return {string} The randomly generated hash.
+ */
+function randomHash() {
+    return Math.random().toString(36).substring(2, 22)
+}
+
+/**
+ * Generates a PHP file with an array containing dependencies and a random version hash.
+ *
+ * @param {Array<string>} globs - An array of strings representing the dependencies.
+ * @return {string} - A PHP file content with an array of dependencies and a random version hash.
+ */
 function generatePhpFile(globs) {
     // generate a random version hash of 20 chars
-    const version = Math.random().toString(36).substring(2, 22);
+    const version = randomHash()
     return `<?php return array('dependencies' => array("${globs.join('","')}"), 'version' => '${version}');`;
 }
 
+/**
+ * Generates a WordPress block with the given configuration.
+ *
+ * @param {Object} config - The configuration object for the block.
+ * @param {string} config.name - The name of the block.
+ * @param {string} [config.sourceFolder="src"] - The source folder for the block.
+ * @param {string} [config.distFolder="build"] - The destination folder for the block.
+ * @param {Array} [config.externals=[]] - An array of external dependencies for the block.
+ * @return {Array} An array containing the plugin tools and plugin React components.
+ */
 export const wpBlock = ({name, sourceFolder = "src", distFolder = "build", externals = []}) => {
 
     const rootPath = path.resolve(__dirname, "..");
-    const srcPath = path.resolve(rootPath, sourceFolder);
     const destPath = path.resolve(rootPath, distFolder);
 
-    console.log( "srcPath", srcPath, "destPath", destPath, "rootpath", rootPath );
-
     const pluginTools = {
-        name: "vite-wordpress-copy",
+        name: name + "-block-copy",
         buildStart() {
-            this.addWatchFile(path.resolve(rootPath, "/block.json"));
-            this.addWatchFile(path.resolve(rootPath, sourceFolder + "/*.php"));
+            this.addWatchFile(path.resolve(rootPath, "block.json"));
+            this.addWatchFile(path.resolve(rootPath, "*.php"));
         },
         closeBundle() {
-            const phpFile = generatePhpFile(['react', 'wp-block-editor', 'wp-blocks']);
-            fs.writeFileSync(destPath + "/" + name + ".asset.php", phpFile);
+            const phpFile = generatePhpFile(externals);
+            fs.writeFileSync(`${destPath}/${name}.asset.php`, phpFile);
         },
     };
 
     const pluginReact = react({
         jsxRuntime: "classic",
-        jsxImportSource: "@wordpress/element",
+        jsxImportSource: "@wordpress/element"
     });
 
     return [pluginTools, pluginReact];

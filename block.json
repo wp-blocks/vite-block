@@ -3,7 +3,7 @@
   "name": "codekraft/vite-block",
   "title": "Block Vite",
   "description": "Build your blocks with Vite",
-  "icon": "icon",
+  "icon": "star",
   "category": "widgets",
   "supports": {
     "align": true,
@@ -22,9 +22,7 @@
       "align": "wide"
     }
   },
-  "editorScript": [
-    "file:./build/vite-block.js"
-  ],
+  "editorScript": "file:./build/vite-block.js",
   "editorStyle": [
     "file:./build/style.css"
   ]

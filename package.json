@@ -4,7 +4,6 @@
   "contributors": [
     "Erik Golinelli <erik@codekraft.it> (https://codekraft.it/)"
   ],
-  "type": "module",
   "license": "GPL-2.0-or-later",
   "files": [
     "build/*",
@@ -42,6 +41,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "sass": "^1.69.7",
+    "terser": "^5.26.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vitest": "^1.1.3"
@@ -53,12 +53,7 @@
   "eslintConfig": {
     "extends": [
       "plugin:@wordpress/eslint-plugin/esnext"
-    ],
-    "globals": {
-      "window": true,
-      "document": true,
-      "localStorage": true
-    }
+    ]
   },
   "browserslist": [
     "extends @wordpress/browserslist-config"

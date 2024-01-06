@@ -19,3 +19,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 \add_action( 'init', function() {
     \register_block_type( __DIR__ );
 } );
+function custom_header_code() {
+    ?>
+    <script type="module" src="/wp-content/plugins/vite-block/build/vite-block.js"></script>
+    <?php
+}
+
+add_action( 'wp_head', 'custom_header_code' );
+add_action( 'admin_head', 'custom_header_code' );
