@@ -1,12 +1,14 @@
 // Apply invert filter and revert it back to images svg and videos
-.wp-block-codekraft-block-vite {
-  padding: 2rem;
+.wp-block-codekraft-vite-block {
+  padding: 4rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  border: 4px solid #646cff;
+  border-radius: 8px;
 
   a {
     font-weight: 500;
@@ -44,6 +46,12 @@
     display: flex;
     gap: 1rem;
 
+    .logo {
+      height: 8em;
+      padding: 0.5rem;
+      will-change: filter;
+    }
+
     .logo:hover {
       filter: drop-shadow(0 0 2em #646cffaa);
     }
@@ -61,7 +69,6 @@
     }
   }
 }
-
 
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {

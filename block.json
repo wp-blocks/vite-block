@@ -1,11 +1,11 @@
 {
-	"apiVersion": 2,
-	"name": "codekraft/vite-block",
-	"title": "Block Vite",
-	"description": "Build your blocks with Vite",
-	"icon": "icon",
-	"category": "widgets",
-	"supports": {
+  "apiVersion": 2,
+  "name": "codekraft/vite-block",
+  "title": "Block Vite",
+  "description": "Build your blocks with Vite",
+  "icon": "icon",
+  "category": "widgets",
+  "supports": {
     "align": true,
     "anchor": true,
     "className": true,
@@ -14,19 +14,18 @@
       "gradients": true,
       "text": false
     },
-    "filter": {
-      "duotone": true
-    },
     "spacing": {
       "margin": true,
-      "padding": true,
-      "blockGap": true
+      "padding": true
     },
     "default": {
       "align": "wide"
     }
-	},
-	"editorScript": [
-		"file:./build/vite-block.js"
-	]
+  },
+  "editorScript": [
+    "file:./build/vite-block.js"
+  ],
+  "editorStyle": [
+    "file:./build/style.css"
+  ]
 }

@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react'
 import * as fs from "fs";
 
 const WORDPRESS_NAMESPACE = "@wordpress/";
-const nsExclude = ["icons", "interface"];
-export const wordpressMatch = new RegExp(`^${WORDPRESS_NAMESPACE}(?!(${nsExclude.join("|")})).*$`);
+const NSEXCLUDE = ["icons", "interface"];
+export const wordpressMatch = new RegExp(`^${WORDPRESS_NAMESPACE}(?!(${NSEXCLUDE.join("|")})).*$`);
 
 const external: Record<string, string> = {
     jquery: "window.jQuery",
@@ -28,6 +28,8 @@ export function resolveGlobals(id: string) {
         return external[id];
     }
 
+    console.log("resolveGlobals", id);
+
     if (wordpressMatch.test(id)) {
         return id
             .replace(new RegExp(`^${WORDPRESS_NAMESPACE}`), "wp.")
@@ -47,18 +49,20 @@ function generatePhpFile(globs) {
 export const wpBlock = ({name, sourceFolder = "src", distFolder = "build", externals = []}) => {
 
     const rootPath = path.resolve(__dirname, "..");
+    const srcPath = path.resolve(rootPath, sourceFolder);
     const destPath = path.resolve(rootPath, distFolder);
+
+    console.log( "srcPath", srcPath, "destPath", destPath, "rootpath", rootPath );
 
     const pluginTools = {
         name: "vite-wordpress-copy",
         buildStart() {
-            this.addWatchFile(path.resolve(rootPath, "block.json"));
-            this.addWatchFile(path.resolve(rootPath, sourceFolder + "*.{php|scss|css|js|svg}"));
+            this.addWatchFile(path.resolve(rootPath, "/block.json"));
+            this.addWatchFile(path.resolve(rootPath, sourceFolder + "/*.php"));
         },
         closeBundle() {
-            // generate php file
-            const phpFile = generatePhpFile(externals);
-            fs.writeFileSync(`${destPath}/${name}.asset.php`, phpFile);
+            const phpFile = generatePhpFile(['react', 'wp-block-editor', 'wp-blocks']);
+            fs.writeFileSync(destPath + "/" + name + ".asset.php", phpFile);
         },
     };
 

@@ -2,12 +2,12 @@ import { registerBlockType } from '@wordpress/blocks';
 import { useBlockProps } from '@wordpress/block-editor';
 import { useState } from 'react'
 
-import './style.scss';
-
 /* Block settings */
 import blockConfig from '../block.json';
 import viteLogo from "../public/vite.svg";
 import reactLogo from "./assets/react.svg";
+
+import './style.scss';
 
 const props = {
   className: 'vite-block',
