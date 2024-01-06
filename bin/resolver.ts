@@ -31,7 +31,7 @@ export function resolveGlobals(id: string) {
 
     if (wordpressMatch.test(id)) {
         return id
-            .replace(new RegExp(`^${WORDPRESS_NAMESPACE}`), "wp.")
+            .replace(new RegExp(`^${WORDPRESS_NAMESPACE}`), "window.wp.")
             .replace(/\//g, ".")
             .replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
     }
@@ -45,19 +45,29 @@ export function resolveGlobals(id: string) {
  * @return {string} The randomly generated hash.
  */
 function randomHash() {
-    return Math.random().toString(36).substring(2, 22)
+    return Math.random().toString(36).substring(2, 12)
+}
+
+function getModuleNames(modules: string[]): string[] {
+    return modules.map(module => {
+        if (module.startsWith('@wordpress/')) {
+            return `wp-${module.split('/')[1]}`;
+        }
+        return module;
+    });
 }
 
 /**
  * Generates a PHP file with an array containing dependencies and a random version hash.
  *
- * @param {Array<string>} globs - An array of strings representing the dependencies.
+ * @param {Array<string>} externals - An array of strings representing the externals.
  * @return {string} - A PHP file content with an array of dependencies and a random version hash.
  */
-function generatePhpFile(globs) {
+function generatePhpFile(externals) {
+    const dependencies = getModuleNames(externals)
     // generate a random version hash of 20 chars
-    const version = randomHash()
-    return `<?php return array('dependencies' => array("${globs.join('","')}"), 'version' => '${version}');`;
+    const version = randomHash() + randomHash()
+    return `<?php return array('dependencies' => array("${dependencies.join('","')}"), 'version' => '${version}');`;
 }
 
 /**

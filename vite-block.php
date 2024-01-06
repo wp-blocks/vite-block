@@ -22,14 +22,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function custom_header_code() {
     ?>
     <script type="module">
-      import RefreshRuntime from 'http://localhost:8888/wp-content/plugins/vite-block/build/@react-refresh'
+      import RefreshRuntime from 'http://localhost:8880/wp-content/plugins/vite-block/build/@react-refresh'
       RefreshRuntime.injectIntoGlobalHook(window)
       window.$RefreshReg$ = () => {}
       window.$RefreshSig$ = () => (type) => type
       window.__vite_plugin_react_preamble_installed__ = true
     </script>
-    <script type="module" src="http://localhost:8888/wp-content/plugins/vite-block/build/@vite/client"></script>
-    <script type="module" src="/wp-content/plugins/vite-block/build/vite-block.js"></script>
+    <script type="module" src="http://localhost:8880/wp-content/plugins/vite-block/build/@vite/client"></script>
     <?php
 }
 

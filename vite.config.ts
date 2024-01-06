@@ -14,7 +14,7 @@ const blockConfig = {
     name: path.basename(process.cwd()),
     sourcePath: path.resolve(__dirname, SOURCEFOLDER),
     distPath: path.resolve(__dirname, BUILDFOLDER),
-    externals: ['@wordpress/block-editor', '@wordpress/blocks', '@wordpress/element/jsx-dev-runtime','@wordpress/element/jsx-runtime', "react"]
+    externals: ['@wordpress/block-editor', '@wordpress/blocks', "react"]
 }
 
 // https://vitejs.dev/config/
@@ -38,7 +38,7 @@ export default defineConfig({
         },
         cssCodeSplit: false,
         emptyOutDir: true,
-        sourcemap: true,
+        sourcemap: false,
         assetsInlineLimit: 0,
         watch: {
             include: [ "./"+SOURCEFOLDER + '/**',  "./"+PUBLICFOLDER + '/**']

@@ -12,7 +12,6 @@
     "LICENSE.md",
     "readme.txt"
   ],
-  "type": "module",
   "scripts": {
     "packages-update": "wp-scripts packages-update",
     "start": "tsc && vite build --watch",
