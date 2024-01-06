@@ -12,19 +12,17 @@
     "LICENSE.md",
     "readme.txt"
   ],
+  "type": "module",
   "scripts": {
     "packages-update": "wp-scripts packages-update",
     "start": "tsc && vite build --watch",
     "build": "tsc && vite build",
+    "dev": "vite --host localhost --port 8880",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "wp-env:start": "wp-env start",
     "wp-env:stop": "wp-env stop",
     "wp-env:destroy": "wp-env destroy",
     "plugin-zip": "npm pack plugin-zip"
-  },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",

@@ -8,7 +8,6 @@ export const wordpressMatch = new RegExp(`^${WORDPRESS_NAMESPACE}(?!(${NSEXCLUDE
 
 const external: Record<string, string> = {
     jquery: "window.jQuery",
-    "jsx-runtime": "window.lodash",
     lodash: "window.lodash",
     moment: "window.moment",
     "react-dom": "window.ReactDOM",
@@ -71,7 +70,7 @@ function generatePhpFile(globs) {
  * @param {Array} [config.externals=[]] - An array of external dependencies for the block.
  * @return {Array} An array containing the plugin tools and plugin React components.
  */
-export const wpBlock = ({name, sourceFolder = "src", distFolder = "build", externals = []}) => {
+export const wpBlock = ({name = "vite-block", sourceFolder = "src", distFolder = "build", externals = []}) => {
 
     const rootPath = path.resolve(__dirname, "..");
     const destPath = path.resolve(rootPath, distFolder);

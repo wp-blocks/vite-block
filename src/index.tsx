@@ -4,8 +4,8 @@ import { registerBlockType } from '@wordpress/blocks';
 import blockConfig from '../block.json';
 
 import './style.scss';
-import Edit from "./Edit.tsx";
-import Save from './Save.tsx';
+import Edit from "./Edit";
+import Save from './Save';
 
 // Register the custom block
 // @ts-ignore

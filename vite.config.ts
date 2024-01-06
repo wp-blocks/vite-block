@@ -4,37 +4,35 @@ import {resolveGlobals, wpBlock} from "./bin/resolver";
 
 import * as path from "node:path";
 
+export const HOST = 'http://localhost:8888' // or leave empty
 export const SOURCEFOLDER = 'src'
 export const BUILDFOLDER = 'build'
+export const PUBLICFOLDER = 'public'
 export const ENTRYPOINT = 'index.tsx'
 
 const blockConfig = {
     name: path.basename(process.cwd()),
     sourcePath: path.resolve(__dirname, SOURCEFOLDER),
     distPath: path.resolve(__dirname, BUILDFOLDER),
-    externals: ['@wordpress/block-editor', '@wordpress/blocks', "react"]
+    externals: ['@wordpress/block-editor', '@wordpress/blocks', '@wordpress/element/jsx-dev-runtime','@wordpress/element/jsx-runtime', "react"]
 }
 
 // https://vitejs.dev/config/
 export default defineConfig({
     root: '.',
-    base: `/wp-content/plugins/${blockConfig.name}/${BUILDFOLDER}/`,
+    base: `${HOST}/wp-content/plugins/${blockConfig.name}/${BUILDFOLDER}/`,
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     plugins: [
         wpBlock(blockConfig)
     ],
     server: {
-        hmr: true,
-        watch: {
-            usePolling: true
-        }
+        host: '0.0.0.0',
+        port: 8880,
     },
     build: {
-        target: "es2016",
         cssMinify: true,
         minify: "terser",
         terserOptions: {
-            ecma: 2016,
             mangle: true,
             compress: true,
         },
@@ -43,7 +41,7 @@ export default defineConfig({
         sourcemap: true,
         assetsInlineLimit: 0,
         watch: {
-            include: [SOURCEFOLDER+'/**', 'public/**']
+            include: [ "./"+SOURCEFOLDER + '/**',  "./"+PUBLICFOLDER + '/**']
         },
         rollupOptions: {
             input: {
@@ -52,7 +50,7 @@ export default defineConfig({
             output: {
                 assetFileNames: (assetInfo) => {
                     if (assetInfo.name == blockConfig.name + ".css") return "style.css";
-                    return assetInfo.name;
+                    return assetInfo.name as string;
                 },
                 format: 'iife',
                 chunkFileNames: '[name].[ext]',
