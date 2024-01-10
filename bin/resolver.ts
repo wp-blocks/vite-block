@@ -1,6 +1,6 @@
 import * as path from 'path';
 import react from '@vitejs/plugin-react'
-import * as fs from "fs";
+import * as fs from "fs/promises";
 
 const WORDPRESS_NAMESPACE = "@wordpress/";
 const NSEXCLUDE = ["icons", "interface"];
@@ -8,26 +8,80 @@ export const wordpressMatch = new RegExp(`^${WORDPRESS_NAMESPACE}(?!(${NSEXCLUDE
 
 const external: Record<string, string> = {
     jquery: "window.jQuery",
+    "lodash-es": "window.lodash",
     lodash: "window.lodash",
     moment: "window.moment",
-    "react-dom": "window.ReactDOM",
     react: "window.React",
+    "react-dom": "window.ReactDOM",
+    "@babel/runtime/regenerator": "window.regeneratorRuntime",
 };
+
+
+const wpModules = [
+    'a11y',
+    'annotations',
+    'api-fetch',
+    'autop',
+    'blob',
+    'block-directory',
+    'block-editor',
+    'block-library',
+    'block-serialization-default-parser',
+    'blocks',
+    'components',
+    'compose',
+    'core-data',
+    'customize-widgets',
+    'data',
+    'data-controls',
+    'date',
+    'deprecated',
+    'dom',
+    'dom-ready',
+    'edit-post',
+    'edit-site',
+    'edit-widgets',
+    'editor',
+    'element',
+    'escape-html',
+    'format-library',
+    'hooks',
+    'html-entities',
+    'i18n',
+    'is-shallow-equal',
+    'keyboard-shortcuts',
+    'keycodes',
+    'list-reusable-blocks',
+    'media-utils',
+    'notices',
+    'nux',
+    'plugins',
+    'preferences',
+    'preferences-persistence',
+    'primitives',
+    'priority-queue',
+    'redux-routine',
+    'reusable-blocks',
+    'rich-text',
+    'server-side-render',
+    'shortcode',
+    'style-engine',
+    'token-list',
+    'url',
+    'viewport',
+    'warning',
+    'widgets',
+    'wordcount',
+];
 
 /**
  * Returns a custom global resolver that maps external libraries and objects to their `window` counterparts
  */
 export function resolveGlobals(id: string) {
 
-    if (Object.prototype.hasOwnProperty.call(external, id) && external[id]) {
+    if (id in external && external[id]) {
         return external[id];
     }
-
-    if (id in external) {
-        return external[id];
-    }
-
-    console.log("resolveGlobals", id);
 
     if (wordpressMatch.test(id)) {
         return id
@@ -35,8 +89,6 @@ export function resolveGlobals(id: string) {
             .replace(/\//g, ".")
             .replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
     }
-
-    return "";
 }
 
 /**
@@ -82,18 +134,17 @@ function generatePhpFile(externals) {
  */
 export const wpBlock = ({name = "vite-block", sourceFolder = "src", distFolder = "build", externals = []}) => {
 
-    const rootPath = path.resolve(__dirname, "..");
+    const rootPath = path.resolve(process.cwd());
     const destPath = path.resolve(rootPath, distFolder);
 
     const pluginTools = {
         name: name + "-block-copy",
         buildStart() {
-            this.addWatchFile(path.resolve(rootPath, "block.json"));
-            this.addWatchFile(path.resolve(rootPath, "*.php"));
+            this.addWatchFile(path.resolve(rootPath, "*.js,*.cjs,*.mjs,*.jsx,*.ts,*.tsx,*.css,*.scss,*.less,*.php"));
         },
-        closeBundle() {
+        async closeBundle() {
             const phpFile = generatePhpFile(externals);
-            fs.writeFileSync(`${destPath}/${name}.asset.php`, phpFile);
+            await fs.writeFile(`${destPath}/${name}.asset.php`, phpFile);
         },
     };
 
