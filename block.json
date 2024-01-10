@@ -25,6 +25,5 @@
   },
   "style": [
     "file:./build/style.css"
-  ],
-  "script": "file:./build/vite-block.js"
+  ]
 }

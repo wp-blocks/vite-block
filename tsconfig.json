@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "target": "ES2015",
+    "lib": ["ES2015", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
 
     /* Bundler mode */
     "useDefineForClassFields": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "Node16",
+    "module": "Node16",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,

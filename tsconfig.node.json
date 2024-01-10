@@ -6,7 +6,8 @@
     "strict": false,
     "composite": true,
     "skipLibCheck": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "Node16",
+    "module": "Node16",
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist"
   },

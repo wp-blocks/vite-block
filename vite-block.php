@@ -29,6 +29,7 @@ function custom_header_code() {
       window.__vite_plugin_react_preamble_installed__ = true
     </script>
     <script type="module" src="http://localhost:8880/wp-content/plugins/vite-block/build/@vite/client"></script>
+    <script type="module" src="http://localhost:8888/wp-content/plugins/vite-block/build/vite-block.js"></script>
     <?php
 }
 
