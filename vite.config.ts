@@ -3,6 +3,7 @@ import * as process from "process";
 import {resolveGlobals, wpBlock} from "./bin/resolver";
 
 import * as path from "node:path";
+import {wpCopy} from "./bin/copy";
 
 export const HOST = 'http://localhost:8888' // or leave empty
 export const SOURCEFOLDER = 'src'
@@ -23,7 +24,8 @@ export default defineConfig({
     base: `${HOST}/wp-content/plugins/${blockConfig.name}/${BUILDFOLDER}/`,
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     plugins: [
-        wpBlock(blockConfig)
+        wpCopy(),
+        wpBlock(blockConfig),
     ],
     server: {
         host: '0.0.0.0',
