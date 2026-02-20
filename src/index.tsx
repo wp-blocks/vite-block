@@ -1,7 +1,7 @@
 import { registerBlockType } from '@wordpress/blocks';
 
 /* Block settings */
-import blockConfig from '../block.json';
+import blockConfig from './block.json';
 
 /* Block styles */
 import './style.scss';
